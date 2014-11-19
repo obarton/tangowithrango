@@ -27,6 +27,7 @@
 	            	{% if user.is_authenticated %}
 	            	<li class="navbar-text">Welcome, {{ user.username }}!</li>
 	            	<li><a href="/rango/logout/">Logout</a></li>
+	            	<li><a href="/rango/profile/">Profile</a></li>
 	            	{% else %}
 					<li><a href="/rango/register/">Register Here</a></li>
 					<li><a href="/rango/login/">Login</a></li>
@@ -52,12 +53,20 @@
 	          	<!--Empty for the time being-->
 	 			{% block sidebar %}
 	 			{% endblock %}
+	 			<ul class="nav nav-list">
+	 				<li class="nav-header">Find a Category</li>
+		 			<form>
+		 			<label> </label>
+		 			<li>
+		 			<input class="search-query span19" type="text" name="suggestion" value="" id="suggestion"/>
+		 			</li>
+		 			</form>
+	 			</ul>
+	 			{% if cat_list %}
 	 			<div id="cats">
-	 				{% if cat_list %}
-	 					<ul class="nav nav-list"><li>Category List</li></ul>
 	 					{% include 'rango/category_list.html' with cat_list=cat_list %}
-	 				{% endif %}
 	 			</div>
+	 			{% endif %}
 	          </div>
 	          <!--/.well -->
 	        </div>
@@ -79,6 +88,7 @@
 			</div>
 	    </footer>
 
+	    <script src="{% static 'js/rango-ajax.js' %}"></script>
 	    <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
 	    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 	</body>
