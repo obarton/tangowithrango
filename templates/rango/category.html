@@ -1,0 +1,62 @@
+{% extends 'rango/base.html' %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+
+<!--Search markup -->
+<div class="hero-unit">
+	<h1>Search with Rango</h1>
+	<br/>
+
+	<div class="container-fluid">
+		<form class="span8 form-search" id="search_form" method="post" action="/rango/category/{{ category_name_url }}/">
+			{% csrf_token %}
+			<!--Display the search form elements here -->
+			<input type="text" class="input-long search-query" name="query" value="{{ category_name }}" id="query" />
+			<button type="submit" class="btn btn-success" name="submit" value="Search" />Search</button>
+		</form>
+	</div>
+
+	<div class="container-fluid">
+		{% if result_list %}
+		<!--Display search results in an ordered list -->
+			<ol>
+				{% for result in result_list %}
+					<li>
+						<strong><a href="{{ result.link }}">{{ result.title }} </a></strong>
+						<p>{{ result.summary }}</p>
+					</li>
+				{% endfor %}
+			</ol>
+		{% else %}
+			<br/>
+			<p>No results found</p>
+		{% endif %}
+	</div>
+</div>
+
+<div class="hero-unit">
+	<h1>{{ category_name }}</h1>
+
+		{% if category %}
+
+			{% if pages %}
+			<ul>
+				{% for page in pages %}
+				<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+				{% endfor %}
+			</ul>
+			{% else %}
+				<strong>No pages currently in category.</strong>
+			{% endif %}
+			
+			{% if user.is_authenticated %}
+			<a href='/rango/category/{{ category_name_url }}/add_page/'> Add a New Page</a>
+			{% endif %}
+
+		{% else %}
+			The specified category {{ category_name }} does not exist!
+		{% endif %}
+</div>
+{% endblock %}
